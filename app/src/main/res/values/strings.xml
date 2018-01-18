@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">디디로케이터</string>
+    <string-array name="asset_type">
+        <item>원룸</item>
+        <item>상가</item>
+        <item>토지</item>
+        <item>주택</item>
+        <item>미분류</item>
+    </string-array>
+    <string-array name="one_name">
+        <item>직접입력</item>
+        <item>3층원룸건물</item>
+        <item>4층원룸건물</item>
+        <item>2층상가주택</item>
+        <item>3층상가주택</item>
+        <item>4층상가주택</item>
+        <item>2층주택</item>
+        <item>3층주택</item>
+    </string-array>
+    <string-array name="sg_name">
+        <item>직접입력</item>
+        <item>단층상가건물</item>
+        <item>2층상가건물</item>
+        <item>3층상가건물</item>
+        <item>4층상가건물</item>
+        <item>5층상가건물</item>
+        <item>6층상가건물</item>
+        <item>7층상가건물</item>
+        <item>8층상가건물</item>
+        <item>9층상가건물</item>
+        <item>10층상가건물</item>
+    </string-array>
+    <string-array name="lnd_name">
+        <item>직접입력</item>
+        <item>나대지</item>
+    </string-array>
+    <string-array name="hs_name">
+        <item>직접입력</item>
+    </string-array>
+    <string-array name="etc_name">
+        <item>직접입력</item>
+    </string-array>
+</resources>

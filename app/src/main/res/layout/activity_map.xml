@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    >
+    <com.nhn.android.maps.NMapView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/mapView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <RelativeLayout
+        android:id="@+id/button_panel"
+        android:layout_width="56dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/pureWhite"
+        android:alpha="0.67"
+        />
+
+    <ImageView
+        android:id="@+id/myLocBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/my_loc_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="8dp" />
+
+    <ImageView
+        android:id="@+id/rotateBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/rotate_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/myLocBtn"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:alpha="0.3"
+        />
+
+    <ImageView
+        android:id="@+id/traceBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/trace_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/rotateBtn"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:alpha="0.3"
+        />
+
+    <ImageView
+        android:id="@+id/typeBtnAll"
+        android:layout_width="44dp"
+        android:layout_height="41dp"
+        android:src="@drawable/asset_type_all_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/traceBtn"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/typeBtnOne"
+        android:layout_width="44dp"
+        android:layout_height="37dp"
+        android:src="@drawable/asset_type_one_on"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeBtnAll"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/typeBtnSg"
+        android:layout_width="44dp"
+        android:layout_height="37dp"
+        android:src="@drawable/asset_type_sg_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeBtnOne"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/typeBtnLnd"
+        android:layout_width="44dp"
+        android:layout_height="37dp"
+        android:src="@drawable/asset_type_lnd_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeBtnSg"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/typeBtnAdm"
+        android:layout_width="44dp"
+        android:layout_height="41dp"
+        android:src="@drawable/asset_type_adm_off"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeBtnLnd"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/showTraceBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/show_trace_on"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeBtnAdm"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp" />
+    <ImageView
+        android:id="@+id/selectDateBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/select_date"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showTraceBtn"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        />
+    <ImageView
+        android:id="@+id/showBaloonBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/balloon_on"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectDateBtn"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        />
+
+    <ImageView
+        android:id="@+id/logoutBtn"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/logout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <ImageView
+        android:id="@+id/loadingSpinner"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:src="@drawable/spinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/inputInterface"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/halfDark"
+        android:visibility="gone"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/addressContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/halfDark"
+            >
+            <TextView
+                android:id="@+id/address1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pureWhite"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+            <TextView
+                android:id="@+id/address2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pureWhite"
+                app:layout_constraintTop_toBottomOf="@+id/address1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+        </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/refinedSpotBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="주소상 좌표로 등록"
+            app:layout_constraintTop_toBottomOf="@+id/addressContainer"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/selectedSpotBtn"
+            android:background="@drawable/all_rounded_red"
+            android:textColor="@color/pureWhite"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/selectedSpotBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="선택한 좌표로 등록"
+            app:layout_constraintTop_toBottomOf="@+id/addressContainer"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/refinedSpotBtn"
+            android:background="@drawable/all_rounded_blue"
+            android:textColor="@color/pureWhite"
+            android:layout_marginRight="8dp"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/relocatingAssetSign"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/halfDark"
+        android:visibility="gone"
+        >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/all_rounded_dark_red"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/pureWhite"
+                android:text="새 지점을 선택하세요."
+                android:textSize="16dp"
+                />
+        </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
