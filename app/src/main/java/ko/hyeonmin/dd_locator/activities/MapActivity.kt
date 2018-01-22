@@ -344,7 +344,8 @@ class MapActivity : NMapActivity() {
                 assetJo["bld_map_y"].toString(),
                 assetJo["bld_on_wall"].toString(),
                 assetJo["bld_on_parked"].toString(),
-                assetJo["work_requested"].toString()
+                assetJo["work_requested"].toString(),
+                assetJo["photo"].toString()
         )
         goToBilUp()
     }

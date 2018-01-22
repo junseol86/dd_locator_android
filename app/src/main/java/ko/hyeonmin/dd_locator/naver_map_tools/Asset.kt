@@ -33,6 +33,8 @@ class Asset {
     var bldOnParked: String = ""
     var workRequested: String = ""
 
+    var photo: String = ""
+
     constructor(
             _bld_map_x: String, _bld_map_y: String,
             _plat_plc: String, _new_plat_plc: String,
@@ -56,7 +58,8 @@ class Asset {
             _bld_ipkey: String, _bld_roomkey: String,
             _bld_gwan: String, _bld_tel_owner: String, _bld_tel_gwan: String,
             _bld_map_x: String, _bld_map_y: String,
-            _bld_on_wall: String, _bld_on_parked: String, _work_reuested: String
+            _bld_on_wall: String, _bld_on_parked: String, _work_reuested: String,
+            _photo: String
     ) {
         insertOrModify = false
 
@@ -86,6 +89,8 @@ class Asset {
         bldOnWall = _bld_on_wall
         bldOnParked = _bld_on_parked
         workRequested = _work_reuested
+
+        photo = _photo;
     }
 
 }
