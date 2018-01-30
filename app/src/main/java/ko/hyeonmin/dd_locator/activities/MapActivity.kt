@@ -74,15 +74,18 @@ class MapActivity : NMapActivity() {
     var rotateBtn: ImageView? = null
     var followMyLoc: Boolean = false
 
-    var typeBtns = arrayOfNulls<ImageView>(5)
-    val typeBtnIds: Array<Int> = arrayOf(R.id.typeBtnAll, R.id.typeBtnOne, R.id.typeBtnSg, R.id.typeBtnLnd, R.id.typeBtnAdm)
-    val typeBtnOns: Array<Int> = arrayOf(R.drawable.asset_type_all_on, R.drawable.asset_type_one_on, R.drawable.asset_type_sg_on, R.drawable.asset_type_lnd_on, R.drawable.asset_type_adm_on)
-    val typeBtnOffs: Array<Int> = arrayOf(R.drawable.asset_type_all_off, R.drawable.asset_type_one_off, R.drawable.asset_type_sg_off, R.drawable.asset_type_lnd_off, R.drawable.asset_type_adm_off)
+//    var typeBtns = arrayOfNulls<ImageView>(5)
+//    val typeBtnIds: Array<Int> = arrayOf(R.id.typeBtnAll, R.id.typeBtnOne, R.id.typeBtnSg, R.id.typeBtnLnd, R.id.typeBtnAdm)
+//    val typeBtnOns: Array<Int> = arrayOf(R.drawable.asset_type_all_on, R.drawable.asset_type_one_on, R.drawable.asset_type_sg_on, R.drawable.asset_type_lnd_on, R.drawable.asset_type_adm_on)
+//    val typeBtnOffs: Array<Int> = arrayOf(R.drawable.asset_type_all_off, R.drawable.asset_type_one_off, R.drawable.asset_type_sg_off, R.drawable.asset_type_lnd_off, R.drawable.asset_type_adm_off)
     var assetTypes: Array<String> = arrayOf("all", "one", "sg", "lnd", "hs")
     var assetTypeNames: Array<String> = arrayOf("전체", "원룸", "상가", "토지", "주택")
 
     var showBalloonBtn: ImageView? = null
     var showBalloon: Boolean = true
+
+    var mapFilter: MapFilter? = null
+    var filterBtn: ImageView? = null
 
     var logoutBtn: ImageView? = null
     var zoomLevel: Int = 12
@@ -149,24 +152,24 @@ class MapActivity : NMapActivity() {
             toggleRotation(!(mapView?.isAutoRotateEnabled)!!)
         }
 
-        for (i in 0..4) {
-            typeBtns[i] = findViewById(typeBtnIds[i])
-            typeBtns[i]?.setOnClickListener {
-                if (i < 4) {
-                    MapSingleton.assetTypeIndex = i
-                    mapAssetLoader?.loadIfNeeded(true)
-                    Toast.makeText(this, "${assetTypeNames[i]} 매물", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "준비중인 기능입니다.", Toast.LENGTH_SHORT).show()
-                }
-                for (j in 0..4) {
-                    if (i == j)
-                        typeBtns[j]?.setImageResource(typeBtnOns[j])
-                    else
-                        typeBtns[j]?.setImageResource(typeBtnOffs[j])
-                }
-            }
-        }
+//        for (i in 0..4) {
+//            typeBtns[i] = findViewById(typeBtnIds[i])
+//            typeBtns[i]?.setOnClickListener {
+//                if (i < 4) {
+//                    MapSingleton.assetTypeIndex = i
+//                    mapAssetLoader?.loadIfNeeded(true)
+//                    Toast.makeText(this, "${assetTypeNames[i]} 매물", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "준비중인 기능입니다.", Toast.LENGTH_SHORT).show()
+//                }
+//                for (j in 0..4) {
+//                    if (i == j)
+//                        typeBtns[j]?.setImageResource(typeBtnOns[j])
+//                    else
+//                        typeBtns[j]?.setImageResource(typeBtnOffs[j])
+//                }
+//            }
+//        }
 
         showBalloonBtn = findViewById(R.id.showBaloonBtn)
         showBalloonBtn?.setOnClickListener {
@@ -175,6 +178,12 @@ class MapActivity : NMapActivity() {
             clearDataOverlays()
             mapAssetLoader!!.loadIfNeeded(true)
         }
+
+        mapFilter = MapFilter(this)
+        filterBtn = findViewById(R.id.filterBtn)
+        filterBtn?.setOnClickListener({
+            mapFilter?.filterOnOff(true)
+        })
 
         logoutBtn = findViewById(R.id.logoutBtn)
         logoutBtn?.setOnClickListener {
@@ -202,6 +211,11 @@ class MapActivity : NMapActivity() {
     }
 
     override fun onBackPressed() {
+        if (mapFilter!!.filterCl.visibility == View.VISIBLE) {
+            mapFilter?.filterOnOff(false)
+            return
+        }
+
         if (mapInputInterface!!.isSpotButtonsOn() || mapInputInterface!!.relocatingAsset) {
             mapInputInterface?.onBackPressed()
             return
@@ -334,6 +348,7 @@ class MapActivity : NMapActivity() {
                 assetJo["useapr_day"].toString(),
                 assetJo["fmly_cnt"].toString(),
                 assetJo["bld_name"].toString(),
+                assetJo["bld_fmly_cnt"].toString(),
                 assetJo["bld_memo"].toString(),
                 assetJo["bld_ipkey"].toString(),
                 assetJo["bld_roomkey"].toString(),

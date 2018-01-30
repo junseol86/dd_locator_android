@@ -2,11 +2,13 @@ package ko.hyeonmin.dd_locator.activities
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build.VERSION_CODES.M
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -23,6 +25,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import ko.hyeonmin.dd_locator.R
+import ko.hyeonmin.dd_locator.bil_up_bools.Phonenum
 import ko.hyeonmin.dd_locator.naver_map_tools.MapSingleton
 import ko.hyeonmin.dd_locator.utils.Secrets
 import java.io.ByteArrayOutputStream
@@ -51,10 +54,16 @@ class BilUpActivity: Activity() {
     var bldNameIndex: Int = 0
     var memoEdit: EditText? = null
     var gwanEdit: EditText? = null
+
+    var phonenum: Phonenum? = null
+
     var telOwnerEdit: EditText? = null
+    var telOwnerCheck: Button? = null
     var telGwanEdit: EditText? = null
+    var telGwanCheck: Button? = null
     var ipkeyEdit: EditText? = null
     var roomkeyEdit: EditText? = null
+    var fmlyCntEdit: EditText? = null
     var onWallEdit: EditText? = null
     var onParkedEdit: EditText? = null
     var uploadBtn: Button? = null
@@ -137,17 +146,39 @@ class BilUpActivity: Activity() {
 
         ipkeyEdit = findViewById(R.id.ipkey_num)
         roomkeyEdit = findViewById(R.id.roomkey_num)
+        fmlyCntEdit = findViewById(R.id.fmlyCntEdit)
 
         gwanEdit = findViewById(R.id.gwan_edit)
-        telGwanEdit = findViewById(R.id.tel_gwan_edit)
+
+        phonenum = Phonenum(this)
+
         telOwnerEdit = findViewById(R.id.tel_owner_edit)
+        telOwnerCheck = findViewById(R.id.tel_owner_check)
+        telOwnerCheck?.setOnClickListener({
+            phonenum?.searchPhoenum(telOwnerEdit!!.text.toString(), true)
+        })
+        telGwanEdit = findViewById(R.id.tel_gwan_edit)
+        telGwanCheck = findViewById(R.id.tel_gwan_check)
+        telGwanCheck?.setOnClickListener({
+            phonenum?.searchPhoenum(telGwanEdit!!.text.toString(), false)
+        })
 
         onWallEdit = findViewById(R.id.on_wall_edit)
         onParkedEdit = findViewById(R.id.on_parked_edit)
 
         seePhotoBtn = findViewById(R.id.see_photo_btn)
         seePhotoBtn?.setOnClickListener({
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("${Secrets.photoUrl}${MapSingleton.asset!!.photo}")))
+            startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("${Secrets.photoUrl}${MapSingleton.asset!!.photo}"
+                            .replace("\"", "")
+                            .replace("'", ""))))
+            val clipBoard: ClipboardManager = this?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("seePhotoAddress",
+                    "${Secrets.photoUrl}${MapSingleton.asset!!.photo}".replace("\"", "")
+                            .replace("'", ""))
+            clipBoard.primaryClip = clipData
+
+            Toast.makeText(this!!, "복사되었습니다", Toast.LENGTH_LONG).show()
         })
 
         uploadPhotoBtn = findViewById(R.id.upload_photo_btn)
@@ -277,6 +308,7 @@ class BilUpActivity: Activity() {
             telGwanEdit?.setText(MapSingleton.asset!!.bldTelGwan)
             ipkeyEdit?.setText(MapSingleton.asset!!.bldIpkey)
             roomkeyEdit?.setText(MapSingleton.asset!!.bldRoomkey)
+            fmlyCntEdit?.setText(MapSingleton.asset!!.bldFmlyCnt)
             onWallEdit?.setText(MapSingleton.asset!!.bldOnWall)
             onParkedEdit?.setText(MapSingleton.asset!!.bldOnParked)
             workRequested?.visibility = if (MapSingleton.asset!!.workRequested.trim() == "") View.GONE else View.VISIBLE
@@ -297,27 +329,17 @@ class BilUpActivity: Activity() {
     }
 
     fun getPhoto() {
-        AlertDialog.Builder(this)
-                .setTitle("사진 올리기")
-                .setItems(arrayOf("카메라로 찍기", "사진첩에서 가져오기"), { _, i ->
-                    if (i == 0) {
-
-                        var photoFile: File? = null
-                        try {
-                            photoFile = createImgFile()
-                        } catch (e: Exception) {
-                            println(e)
-                        }
-                        if (photoFile != null) {
-                            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile))
-                            startActivityForResult(intent, 100)
-                        }
-
-                    } else {
-
-                    }
-                }).show()
+        var photoFile: File? = null
+        try {
+            photoFile = createImgFile()
+        } catch (e: Exception) {
+            println(e)
+        }
+        if (photoFile != null) {
+            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile))
+            startActivityForResult(intent, 100)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -325,7 +347,7 @@ class BilUpActivity: Activity() {
 //            var imgBitmap: Bitmap = data!!.extras.get("data") as Bitmap
 
             var imgBitmap = BitmapFactory.decodeStream(FileInputStream(File(currentPhotoPath)))
-            var resizedBitmap = Bitmap.createScaledBitmap(imgBitmap, 600, imgBitmap.height * 600 / imgBitmap.width, false)
+            var resizedBitmap = Bitmap.createScaledBitmap(imgBitmap, 1024, imgBitmap.height * 1024 / imgBitmap.width, false)
             var output = ByteArrayOutputStream()
             resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output)
             var bytes = output.toByteArray()
@@ -416,6 +438,7 @@ class BilUpActivity: Activity() {
                         else -> resources.getStringArray(R.array.lnd_name)[bldNameIndex]
                     }
                 }
+                params["bld_fmly_cnt"] = fmlyCntEdit!!.text.toString()
                 params["bld_memo"] = memoEdit!!.text.toString()
                 params["bld_gwan"] = gwanEdit!!.text.toString()
                 params["bld_tel_owner"] = telOwnerEdit!!.text.toString()
@@ -433,7 +456,7 @@ class BilUpActivity: Activity() {
 
     fun modifyAsset(request: Boolean) {
         val modifyRequest: StringRequest = object: StringRequest(Request.Method.PUT,
-                Secrets.apiUrl + "asset/modifyV2",
+                Secrets.apiUrl + "asset/modifyV3",
                 Response.Listener {
                     finish()
                 },
@@ -452,29 +475,29 @@ class BilUpActivity: Activity() {
 
             override fun getParams(): MutableMap<String, String> {
                 var params: MutableMap<String, String> = HashMap<String, String>()
-                params.put("bld_map_x", MapSingleton.asset!!.bldMapX)
-                params.put("bld_map_y", MapSingleton.asset!!.bldMapY)
-                params.put("plat_plc", MapSingleton.asset!!.platPlc)
-                params.put("new_plat_plc", MapSingleton.asset!!.newPlatPlc)
-                params.put("bld_type", assetTypes[assetTypeIndex])
-                params.put("bld_name",
-                        if (bldNameIndex == 0) if (bldNameEdit!!.text.toString() == "") "(수동입력)" else bldNameEdit!!.text.toString()
-                        else  {
-                            when (assetTypeIndex) {
-                                0 -> resources.getStringArray(R.array.one_name)[bldNameIndex]
-                                1 -> resources.getStringArray(R.array.sg_name)[bldNameIndex]
-                                else -> resources.getStringArray(R.array.lnd_name)[bldNameIndex]
-                            }
-                        })
-                params.put("bld_memo", memoEdit!!.text.toString())
-                params.put("bld_gwan", gwanEdit!!.text.toString())
-                params.put("bld_tel_owner", telOwnerEdit!!.text.toString())
-                params.put("bld_tel_gwan", telGwanEdit!!.text.toString())
-                params.put("bld_ipkey", ipkeyEdit!!.text.toString())
-                params.put("bld_roomkey", roomkeyEdit!!.text.toString())
-                params.put("bld_on_wall", onWallEdit!!.text.toString())
-                params.put("bld_on_parked", onParkedEdit!!.text.toString())
-                params.put("work_requested", if (request) "true" else "false")
+                params["bld_map_x"] = MapSingleton.asset!!.bldMapX
+                params["bld_map_y"] = MapSingleton.asset!!.bldMapY
+                params["plat_plc"] = MapSingleton.asset!!.platPlc
+                params["new_plat_plc"] = MapSingleton.asset!!.newPlatPlc
+                params["bld_type"] = assetTypes[assetTypeIndex]
+                params["bld_name"] = if (bldNameIndex == 0) if (bldNameEdit!!.text.toString() == "") "(수동입력)" else bldNameEdit!!.text.toString()
+                else  {
+                    when (assetTypeIndex) {
+                        0 -> resources.getStringArray(R.array.one_name)[bldNameIndex]
+                        1 -> resources.getStringArray(R.array.sg_name)[bldNameIndex]
+                        else -> resources.getStringArray(R.array.lnd_name)[bldNameIndex]
+                    }
+                }
+                params["bld_memo"] = memoEdit!!.text.toString()
+                params["bld_gwan"] = gwanEdit!!.text.toString()
+                params["bld_tel_owner"] = telOwnerEdit!!.text.toString()
+                params["bld_tel_gwan"] = telGwanEdit!!.text.toString()
+                params["bld_ipkey"] = ipkeyEdit!!.text.toString()
+                params["bld_roomkey"] = roomkeyEdit!!.text.toString()
+                params["bld_fmly_cnt"] = fmlyCntEdit!!.text.toString()
+                params["bld_on_wall"] = onWallEdit!!.text.toString()
+                params["bld_on_parked"] = onParkedEdit!!.text.toString()
+                params["work_requested"] = if (request) "true" else "false"
                 return params
             }
         }

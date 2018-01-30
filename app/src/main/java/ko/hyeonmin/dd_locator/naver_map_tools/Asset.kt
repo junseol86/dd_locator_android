@@ -18,6 +18,7 @@ class Asset {
     var fmlyCnt: String = ""
 
     var bldName: String = ""
+    var bldFmlyCnt: String = ""
     var bldMemo: String = ""
     var bldIpkey: String = ""
     var bldRoomkey: String = ""
@@ -54,7 +55,7 @@ class Asset {
             _plat_plc: String, _new_plat_plc: String,
             _main_purps: String, _etc_purps: String,
             _grnd_flr_cnt: String, _useapr_day: String, _fmly_cnt: String,
-            _bld_name: String, _bld_memo: String,
+            _bld_name: String, _bld_fmly_cnt: String, _bld_memo: String,
             _bld_ipkey: String, _bld_roomkey: String,
             _bld_gwan: String, _bld_tel_owner: String, _bld_tel_gwan: String,
             _bld_map_x: String, _bld_map_y: String,
@@ -75,6 +76,7 @@ class Asset {
         fmlyCnt = _fmly_cnt
 
         bldName = _bld_name
+        bldFmlyCnt = _bld_fmly_cnt
         bldMemo = _bld_memo
         bldIpkey = _bld_ipkey
         bldRoomkey = _bld_roomkey

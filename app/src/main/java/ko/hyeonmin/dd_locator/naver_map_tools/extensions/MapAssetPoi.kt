@@ -88,11 +88,11 @@ class MapAssetPoi {
                         "현관비번: ${p1.tag.toString().split('§')[2]}",
                         "호실비번: ${p1.tag.toString().split('§')[3]}",
                         "주인번호: ${p1.tag.toString().split('§')[1]}",
-                        "좌표수정",
+//                        "좌표수정",
                         "건물명과 주소 복사",
                         "취소"), { _, i ->
                     if (i in 0..2) {
-                        val tag: String = p1!!.tag as String
+                        val tag: String = p1.tag as String
                         MapSingleton.baseIdx = tag.split('§')[0]
                         mapActivity?.mapVolley?.getAnAsset(MapSingleton.baseIdx, 0)
                     } else if (i == 3) {
@@ -102,13 +102,13 @@ class MapAssetPoi {
                             intent.data = Uri.parse("tel:" + phoneNo.replace("-", ""))
                             mapActivity?.startActivity(intent)
                         }
+//                    } else if (i == 4) {
+//                        mapActivity?.mapInputInterface?.toggleSpotButtonsVisibility(View.GONE)
+//                        val tag: String = p1!!.tag as String
+//                        MapSingleton.baseIdx = tag.split('§')[0]
+//                        mapActivity?.mapInputInterface?.setRelocationingAsset(true)
                     } else if (i == 4) {
-                        mapActivity?.mapInputInterface?.toggleSpotButtonsVisibility(View.GONE)
-                        val tag: String = p1!!.tag as String
-                        MapSingleton.baseIdx = tag.split('§')[0]
-                        mapActivity?.mapInputInterface?.setRelocationingAsset(true)
-                    } else if (i == 5) {
-                        val tag: String = p1!!.tag as String
+                        val tag: String = p1.tag as String
                         MapSingleton.baseIdx = tag.split('§')[0]
                         mapActivity?.mapVolley?.getAnAsset(MapSingleton.baseIdx, 1)
                     }

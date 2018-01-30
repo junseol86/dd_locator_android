@@ -178,9 +178,9 @@ class MapInputInterface {
         mapActivity?.mapTrace?.selectDateBtn?.visibility = if (relocatingAsset) View.GONE else View.VISIBLE
         mapActivity?.showBalloonBtn?.visibility = if (relocatingAsset) View.GONE else View.VISIBLE
 
-        for (btn in mapActivity!!.typeBtns) {
-            btn?.visibility = if (relocatingAsset) View.GONE else View.VISIBLE
-        }
+//        for (btn in mapActivity!!.typeBtns) {
+//            btn?.visibility = if (relocatingAsset) View.GONE else View.VISIBLE
+//        }
     }
 
     fun toggleSpotButtonsVisibility(visibility: Int) {
