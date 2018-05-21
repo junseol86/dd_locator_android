@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley
 import ko.hyeonmin.dd_locator.R
 import ko.hyeonmin.dd_locator.bil_up_bools.Phonenum
 import ko.hyeonmin.dd_locator.naver_map_tools.MapSingleton
+import ko.hyeonmin.dd_locator.utils.Consts
 import ko.hyeonmin.dd_locator.utils.Secrets
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -38,7 +39,7 @@ import java.io.FileInputStream
 class BilUpActivity: Activity() {
 
     var rq: RequestQueue? = null
-    val assetTypes: Array<String> = arrayOf("one", "sg", "lnd", "hs", "")
+//    val assetTypes: Array<String> = arrayOf("one", "sg", "lnd", "hs", "")
     val tel2Types: Array<String> = arrayOf("G", "J", "B")
 
     var address: TextView? = null
@@ -61,10 +62,15 @@ class BilUpActivity: Activity() {
     var telOwnerCheck: Button? = null
     var telGwanEdit: EditText? = null
     var telGwanCheck: Button? = null
+    var ipkeyEditLl: LinearLayout? = null
     var ipkeyEdit: EditText? = null
+    var roomkeyEditLl: LinearLayout? = null
     var roomkeyEdit: EditText? = null
+    var fmlyCntEditLl: LinearLayout? = null
     var fmlyCntEdit: EditText? = null
+    var onWallTv: TextView? = null
     var onWallEdit: EditText? = null
+    var onParkedTv: TextView? = null
     var onParkedEdit: EditText? = null
     var uploadBtn: Button? = null
     var modifyDeleteLl: LinearLayout? = null
@@ -79,6 +85,11 @@ class BilUpActivity: Activity() {
     var updatePhotoBtn: Button? = null
     var removePhotoBtn: Button? = null
 
+    var visitedCbLl: LinearLayout? = null
+    var visitedCb: CheckBox? = null
+    
+    var factoryCountLl: LinearLayout? = null
+    var factoryCount: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +108,9 @@ class BilUpActivity: Activity() {
         coords?.text = "주용도 | 기타용도: " + MapSingleton.asset!!.mainPurps + " | " + MapSingleton.asset!!.etcPurps
 
         assetTypeSpinner = findViewById(R.id.asset_type_spinner)
-        assetTypeAdpater = ArrayAdapter.createFromResource(this, R.array.asset_type, R.layout.support_simple_spinner_dropdown_item)
+//        assetTypeAdpater = ArrayAdapter.createFromResource(this, R.array.asset_type, R.layout.support_simple_spinner_dropdown_item)
+        var bldTypeArray = Array(Consts.bldTypeOpt.size, { i -> Consts.bldTypeOpt[i].first})
+        assetTypeAdpater = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, bldTypeArray)
         assetTypeSpinner?.adapter = assetTypeAdpater
         assetTypeSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -105,17 +118,25 @@ class BilUpActivity: Activity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 assetTypeIndex = p2
-                when (p2) {
-                    0 -> {
+                when (Consts.bldTypeOpt[p2].second) {
+                    "one" -> {
                         bldNameAdpater = ArrayAdapter.createFromResource(activity, R.array.one_name, R.layout.support_simple_spinner_dropdown_item)
                         bldNameSpinner?.adapter = bldNameAdpater
                     }
-                    1 -> {
+                    "sg" -> {
                         bldNameAdpater = ArrayAdapter.createFromResource(activity, R.array.sg_name, R.layout.support_simple_spinner_dropdown_item)
                         bldNameSpinner?.adapter = bldNameAdpater
                     }
-                    else -> {
+                    "lnd" -> {
                         bldNameAdpater = ArrayAdapter.createFromResource(activity, R.array.lnd_name, R.layout.support_simple_spinner_dropdown_item)
+                        bldNameSpinner?.adapter = bldNameAdpater
+                    }
+//                "hs" -> {
+//                    bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.hs_name, R.layout.support_simple_spinner_dropdown_item)
+//                    bldNameSpinner?.adapter = bldNameAdpater
+//                }
+                    else -> {
+                        bldNameAdpater = ArrayAdapter.createFromResource(activity, R.array.etc_name, R.layout.support_simple_spinner_dropdown_item)
                         bldNameSpinner?.adapter = bldNameAdpater
                     }
                 }
@@ -144,9 +165,18 @@ class BilUpActivity: Activity() {
 
         memoEdit = findViewById(R.id.memo_edit)
 
+        ipkeyEditLl = findViewById(R.id.ipkey_num_ll)
         ipkeyEdit = findViewById(R.id.ipkey_num)
+        ipkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+            View.GONE else View.VISIBLE
+        roomkeyEditLl = findViewById(R.id.roomkey_num_ll)
         roomkeyEdit = findViewById(R.id.roomkey_num)
+        roomkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+            View.GONE else View.VISIBLE
+        fmlyCntEditLl = findViewById(R.id.fmlyCntEdit_ll)
         fmlyCntEdit = findViewById(R.id.fmlyCntEdit)
+        fmlyCntEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+            View.GONE else View.VISIBLE
 
         gwanEdit = findViewById(R.id.gwan_edit)
 
@@ -163,7 +193,9 @@ class BilUpActivity: Activity() {
             phonenum?.searchPhoenum(telGwanEdit!!.text.toString(), false)
         })
 
+        onWallTv = findViewById(R.id.on_wall_tv)
         onWallEdit = findViewById(R.id.on_wall_edit)
+        onParkedTv = findViewById(R.id.on_parked_tv)
         onParkedEdit = findViewById(R.id.on_parked_edit)
 
         seePhotoBtn = findViewById(R.id.see_photo_btn)
@@ -197,6 +229,16 @@ class BilUpActivity: Activity() {
         })
 
         photoResult()
+
+        visitedCbLl = findViewById(R.id.visited_cb_ll)
+        visitedCb = findViewById(R.id.visited_cb)
+//        visitedCbLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+//            View.VISIBLE else View.GONE
+
+        factoryCountLl = findViewById(R.id.factory_count_ll)
+        factoryCount = findViewById(R.id.factory_count)
+        factoryCountLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+            View.VISIBLE else View.GONE
 
         workRequested = findViewById(R.id.workRequested)
 
@@ -265,20 +307,13 @@ class BilUpActivity: Activity() {
         }
 
         if (!MapSingleton.asset!!.insertOrModify) {
-            when (MapSingleton.asset!!.bldType) {
-                "one" -> assetTypeSpinner?.setSelection(0)
-                "sg" -> assetTypeSpinner?.setSelection(1)
-                "lnd" -> assetTypeSpinner?.setSelection(2)
-                "hs" -> assetTypeSpinner?.setSelection(3)
-                "" -> assetTypeSpinner?.setSelection(4)
+            for (i in 0 until Consts.bldTypeOpt.size) {
+                if (Consts.bldTypeOpt[i].second == MapSingleton.asset!!.bldType) {
+                    assetTypeSpinner?.setSelection(i)
+                    assetTypeTv?.text = Consts.bldTypeOpt[i].first
+                }
             }
-            when (MapSingleton.asset!!.bldType) {
-                "one" -> assetTypeTv?.text = "원룸"
-                "sg" -> assetTypeTv?.text = "상가"
-                "lnd" -> assetTypeTv?.text = "토지"
-                "hs" -> assetTypeTv?.text = "주택"
-                "" -> assetTypeTv?.text = "미분류"
-            }
+
             when (MapSingleton.asset!!.bldType) {
                 "one" -> {
                     bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.one_name, R.layout.support_simple_spinner_dropdown_item)
@@ -292,11 +327,11 @@ class BilUpActivity: Activity() {
                     bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.lnd_name, R.layout.support_simple_spinner_dropdown_item)
                     bldNameSpinner?.adapter = bldNameAdpater
                 }
-                "hs" -> {
-                    bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.hs_name, R.layout.support_simple_spinner_dropdown_item)
-                    bldNameSpinner?.adapter = bldNameAdpater
-                }
-                "" -> {
+//                "hs" -> {
+//                    bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.hs_name, R.layout.support_simple_spinner_dropdown_item)
+//                    bldNameSpinner?.adapter = bldNameAdpater
+//                }
+                else -> {
                     bldNameAdpater = ArrayAdapter.createFromResource(this, R.array.etc_name, R.layout.support_simple_spinner_dropdown_item)
                     bldNameSpinner?.adapter = bldNameAdpater
                 }
@@ -309,9 +344,21 @@ class BilUpActivity: Activity() {
             ipkeyEdit?.setText(MapSingleton.asset!!.bldIpkey)
             roomkeyEdit?.setText(MapSingleton.asset!!.bldRoomkey)
             fmlyCntEdit?.setText(MapSingleton.asset!!.bldFmlyCnt)
+
+
+            onWallTv?.text =
+                    if (MapSingleton.asset!!.bldType.contains("ftr")
+                            || MapSingleton.asset!!.bldType == "str")
+                    "현수막:" else "벽:"
             onWallEdit?.setText(MapSingleton.asset!!.bldOnWall)
+            onParkedTv?.text =
+                    if (MapSingleton.asset!!.bldType.contains("ftr")
+                            || MapSingleton.asset!!.bldType == "str")
+                        "세입자:" else "주차장:"
             onParkedEdit?.setText(MapSingleton.asset!!.bldOnParked)
             workRequested?.visibility = if (MapSingleton.asset!!.workRequested.trim() == "") View.GONE else View.VISIBLE
+            visitedCb?.isChecked = MapSingleton.asset!!.visited == "1"
+            factoryCount?.setText(MapSingleton.asset!!.factoryCount)
         }
 
         if (!MapSingleton.asset!!.insertOrModify && MapSingleton.noPhotoFilter == "1") {
@@ -429,7 +476,7 @@ class BilUpActivity: Activity() {
                 params["bld_map_y"] = MapSingleton.asset!!.bldMapY
                 params["plat_plc"] = MapSingleton.asset!!.platPlc
                 params["new_plat_plc"] = MapSingleton.asset!!.newPlatPlc
-                params["bld_type"] = assetTypes[assetTypeIndex]
+                params["bld_type"] = Consts.bldTypeOpt[assetTypeIndex].second
                 params["bld_name"] = if (bldNameIndex == 0) if (bldNameEdit!!.text.toString() == "") "(수동입력)" else bldNameEdit!!.text.toString()
                 else  {
                     when (assetTypeIndex) {
@@ -456,7 +503,7 @@ class BilUpActivity: Activity() {
 
     fun modifyAsset(request: Boolean) {
         val modifyRequest: StringRequest = object: StringRequest(Request.Method.PUT,
-                Secrets.apiUrl + "asset/modifyV3",
+                Secrets.apiUrl + "asset/modify_S2",
                 Response.Listener {
                     finish()
                 },
@@ -479,7 +526,7 @@ class BilUpActivity: Activity() {
                 params["bld_map_y"] = MapSingleton.asset!!.bldMapY
                 params["plat_plc"] = MapSingleton.asset!!.platPlc
                 params["new_plat_plc"] = MapSingleton.asset!!.newPlatPlc
-                params["bld_type"] = assetTypes[assetTypeIndex]
+                params["bld_type"] = Consts.bldTypeOpt[assetTypeIndex].second
                 params["bld_name"] = if (bldNameIndex == 0) if (bldNameEdit!!.text.toString() == "") "(수동입력)" else bldNameEdit!!.text.toString()
                 else  {
                     when (assetTypeIndex) {
@@ -497,7 +544,10 @@ class BilUpActivity: Activity() {
                 params["bld_fmly_cnt"] = fmlyCntEdit!!.text.toString()
                 params["bld_on_wall"] = onWallEdit!!.text.toString()
                 params["bld_on_parked"] = onParkedEdit!!.text.toString()
+                params["visited"] = if (visitedCb!!.isChecked) "1" else "0"
+                params["factory_count"] = factoryCount!!.text.toString()
                 params["work_requested"] = if (request) "true" else "false"
+                println(params)
                 return params
             }
         }

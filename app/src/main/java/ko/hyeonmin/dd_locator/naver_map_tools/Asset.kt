@@ -34,6 +34,9 @@ class Asset {
     var bldOnParked: String = ""
     var workRequested: String = ""
 
+    var visited: String = ""
+    var factoryCount: String = ""
+
     var photo: String = ""
 
     constructor(
@@ -60,6 +63,7 @@ class Asset {
             _bld_gwan: String, _bld_tel_owner: String, _bld_tel_gwan: String,
             _bld_map_x: String, _bld_map_y: String,
             _bld_on_wall: String, _bld_on_parked: String, _work_reuested: String,
+            _visited: String, _factoryCount: String,
             _photo: String
     ) {
         insertOrModify = false
@@ -91,6 +95,9 @@ class Asset {
         bldOnWall = _bld_on_wall
         bldOnParked = _bld_on_parked
         workRequested = _work_reuested
+
+        visited = _visited
+        factoryCount = _factoryCount
 
         photo = _photo;
     }

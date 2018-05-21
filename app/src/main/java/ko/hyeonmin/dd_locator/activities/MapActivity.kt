@@ -34,6 +34,7 @@ import ko.hyeonmin.dd_locator.naver_map_tools.required.MyOnMapViewTouchListener
 import ko.hyeonmin.dd_locator.utils.Caches
 import ko.hyeonmin.dd_locator.utils.Secrets
 import org.json.JSONObject
+import java.lang.System.exit
 import kotlin.concurrent.fixedRateTimer
 
 /**
@@ -78,8 +79,8 @@ class MapActivity : NMapActivity() {
 //    val typeBtnIds: Array<Int> = arrayOf(R.id.typeBtnAll, R.id.typeBtnOne, R.id.typeBtnSg, R.id.typeBtnLnd, R.id.typeBtnAdm)
 //    val typeBtnOns: Array<Int> = arrayOf(R.drawable.asset_type_all_on, R.drawable.asset_type_one_on, R.drawable.asset_type_sg_on, R.drawable.asset_type_lnd_on, R.drawable.asset_type_adm_on)
 //    val typeBtnOffs: Array<Int> = arrayOf(R.drawable.asset_type_all_off, R.drawable.asset_type_one_off, R.drawable.asset_type_sg_off, R.drawable.asset_type_lnd_off, R.drawable.asset_type_adm_off)
-    var assetTypes: Array<String> = arrayOf("all", "one", "sg", "lnd", "hs")
-    var assetTypeNames: Array<String> = arrayOf("전체", "원룸", "상가", "토지", "주택")
+//    var assetTypes: Array<String> = arrayOf("all", "one", "sg", "lnd", "hs")
+//    var assetTypeNames: Array<String> = arrayOf("전체", "원룸", "상가", "토지", "주택")
 
     var showBalloonBtn: ImageView? = null
     var showBalloon: Boolean = true
@@ -220,7 +221,13 @@ class MapActivity : NMapActivity() {
             mapInputInterface?.onBackPressed()
             return
         }
-        super.onBackPressed()
+        AlertDialog.Builder(this)
+                .setTitle("종료하시겠습니까?")
+                .setPositiveButton("예", {_, _ -> exit(0)})
+                .setNegativeButton("아니오", {_, _ -> })
+                .show()
+
+//        super.onBackPressed()
     }
 
     fun goToBilUp() {
@@ -301,9 +308,9 @@ class MapActivity : NMapActivity() {
                 object : NMapLocationManager.OnLocationChangeListener {
                     override fun onLocationChanged(p0: NMapLocationManager?, p1: NGeoPoint?): Boolean {
                         if (followMyLoc) {
-                            mapController?.mapCenter = p1
                             caches?.latitude = p1!!.latitude.toString()
                             caches?.longitude = p1.longitude.toString()
+                            mapController?.mapCenter = p1
                         }
                         mapTrace?.uploadTrace(p1!!)
                         return true
@@ -360,6 +367,8 @@ class MapActivity : NMapActivity() {
                 assetJo["bld_on_wall"].toString(),
                 assetJo["bld_on_parked"].toString(),
                 assetJo["work_requested"].toString(),
+                assetJo["visited"].toString(),
+                assetJo["factory_count"].toString(),
                 assetJo["photo"].toString()
         )
         goToBilUp()

@@ -105,6 +105,7 @@
                     android:layout_marginBottom="24dp"
                     />
                 <TextView
+                    android:id="@+id/on_wall_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="벽:"
@@ -117,6 +118,7 @@
                     android:maxLines="5"
                     />
                 <TextView
+                    android:id="@+id/on_parked_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주차장:"
@@ -260,6 +262,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ipkey_num_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -277,6 +280,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/roomkey_num_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -294,6 +298,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/fmlyCntEdit_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -309,6 +314,43 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/visited_cb_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp"
+                    >
+                    <CheckBox
+                        android:id="@+id/visited_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="방문"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/factory_count_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="세입자 수: (모름: -1)"
+                        />
+                    <EditText
+                        android:id="@+id/factory_count"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
                         />
                 </LinearLayout>
             </LinearLayout>

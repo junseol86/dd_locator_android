@@ -18,6 +18,7 @@ import ko.hyeonmin.dd_locator.activities.MapActivity
 import ko.hyeonmin.dd_locator.naver_bldMap_tools.Asset
 import ko.hyeonmin.dd_locator.naver_map_tools.MapSingleton
 import ko.hyeonmin.dd_locator.naver_map_tools.required.NMapPOIflagType
+import ko.hyeonmin.dd_locator.utils.Consts
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -68,7 +69,7 @@ class MapInputInterface {
                             selectedSpot!!.point.longitude.toString(),
                             selectedSpot!!.point.latitude.toString(),
                             addr1, addr2,
-                            mapActivity!!.assetTypes[MapSingleton.assetTypeIndex]
+                            Consts.bldTypeOpt[MapSingleton.assetTypeIndex].second
                     )
                     if (relocatingAsset) {
                         mapActivity?.mapVolley?.modifyLocation()
@@ -90,7 +91,7 @@ class MapInputInterface {
                             refinedSpot!!.point.longitude.toString(),
                             refinedSpot!!.point.latitude.toString(),
                             addr1, addr2,
-                            mapActivity!!.assetTypes[MapSingleton.assetTypeIndex]
+                            Consts.bldTypeOpt[MapSingleton.assetTypeIndex].second
                     )
                     if (relocatingAsset) {
                         mapActivity?.mapVolley?.modifyLocation()

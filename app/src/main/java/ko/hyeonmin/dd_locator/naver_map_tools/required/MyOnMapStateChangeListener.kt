@@ -20,6 +20,8 @@ object MyOnMapStateChangeListener : NMapView.OnMapStateChangeListener {
     override fun onAnimationStateChange(mapView: NMapView, animType: Int, animState: Int) {
     }
     override fun onMapCenterChange(mapView: NMapView, center: NGeoPoint) {
+        (mapView.context as MapActivity).caches?.latitude = center.latitude.toString()
+        (mapView.context as MapActivity).caches?.longitude = center.longitude.toString()
         (mapView.context as MapActivity).mapAssetLoader?.loadIfNeeded(false)
     }
     override fun onZoomLevelChange(mapView: NMapView, level: Int) {

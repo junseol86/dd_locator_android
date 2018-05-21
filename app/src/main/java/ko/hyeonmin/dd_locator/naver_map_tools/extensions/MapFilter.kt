@@ -8,12 +8,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import ko.hyeonmin.dd_locator.R
 import ko.hyeonmin.dd_locator.activities.MapActivity
+import ko.hyeonmin.dd_locator.utils.Consts
 
 /**
  * Created by junse on 2018-01-25.
  */
 class MapFilter(val ma: MapActivity) {
-    var bldType = "one"
+    var bldType = ma.caches!!.bldType
     var hasName = 0
     var hasNumber = 0
     var hasGwan = 0
@@ -21,18 +22,8 @@ class MapFilter(val ma: MapActivity) {
     var fmlyMax = -1
     var mainPurps = ""
     var useaprDay = ""
-
-    var bldTypeOpt = arrayOf(
-            Pair("전체", "all"),
-            Pair("아파트", "apt"),
-            Pair("연립·다세대", "yd"),
-            Pair("오피스텔", "ot"),
-            Pair("단독", "dd"),
-            Pair("다가구", "one"),
-            Pair("상업·업무용", "su"),
-            Pair("토지", "lnd"),
-            Pair("분양·입주권", "bi")
-    )
+    var visited = -1
+    var factory_count = -1 // -1: 모름, 0: 없음, 1: 있음
 
     var hasNameOpt = arrayOf(
             Pair("이름무관", 0),
@@ -58,7 +49,7 @@ class MapFilter(val ma: MapActivity) {
     var hasGwanTemp = 0
 
     val bldTypeSpinner: Spinner = ma.findViewById(R.id.bldType)
-    val bldTypeAdapter = ArrayAdapter(ma, android.R.layout.simple_spinner_dropdown_item, bldTypeOpt.map {it.first})
+    val bldTypeAdapter = ArrayAdapter(ma, android.R.layout.simple_spinner_dropdown_item, Consts.bldTypeOptForFilter.map {it.first})
 
     val hasNameSpinner: Spinner = ma.findViewById(R.id.hasName)
     val hasNameAdapter = ArrayAdapter(ma, android.R.layout.simple_spinner_dropdown_item, hasNameOpt.map {it.first})
@@ -87,7 +78,7 @@ class MapFilter(val ma: MapActivity) {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                bldTypeTemp = bldTypeOpt[p2].second
+                bldTypeTemp = Consts.bldTypeOptForFilter[p2].second
             }
         }
         hasNameSpinner.adapter = hasNameAdapter
@@ -166,6 +157,7 @@ class MapFilter(val ma: MapActivity) {
         hasName = hasNameTemp
         hasNumber = hasNumberTemp
         hasGwan = hasGwanTemp
+        ma.caches?.bldType = bldType
 
         fmlyMin = if (fmlyMinEt.text.toString() == "") -1 else Math.max(-1, fmlyMinEt.text.toString().toInt())
         fmlyMax = if (fmlyMaxEt.text.toString() == "") -1 else Math.max(-1, fmlyMaxEt.text.toString().toInt())

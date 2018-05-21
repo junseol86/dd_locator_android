@@ -43,6 +43,12 @@ class Caches (activity : Activity) {
             sharedPrefs.edit().putString("longitude", value).commit()
         }
 
+    var bldType: String
+        get() = sharedPrefs.getString("bldType", "one")
+        set(value) {
+            sharedPrefs.edit().putString("bldType", value).commit()
+        }
+
     fun logout() {
         loggedIn = false
         id = ""

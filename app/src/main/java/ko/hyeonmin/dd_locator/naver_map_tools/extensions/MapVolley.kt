@@ -44,7 +44,7 @@ class MapVolley(ma: MapActivity) {
 
     fun getAnAsset(baseIdx: String, usage: Int) {
         var getAnAssetRequest: StringRequest = object : StringRequest(Request.Method.GET,
-                "${Secrets.apiUrl}assetV2/$baseIdx",
+                "${Secrets.apiUrl}asset_S2/$baseIdx",
                 Response.Listener {
                     when (usage) {
                         0 -> mapActivity.afterGetAnAsset(JSONObject(it))

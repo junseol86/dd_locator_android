@@ -74,6 +74,8 @@ class LoginActivity: Activity() {
         id = if (loggedIn) caches!!.id else editId?.text.toString()
         pw = if (loggedIn) caches!!.password else editPw?.text.toString()
 
+        println(loginUrl)
+
         val loginRequest: StringRequest = object: StringRequest(Request.Method.GET, loginUrl,
                 Response.Listener<String> {
                     loginResult(it)
@@ -85,8 +87,9 @@ class LoginActivity: Activity() {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params.put("id", id)
-                params.put("pw", pw)
+                params["id"] = id
+                params["pw"] = pw
+
                 return params
             }
         }

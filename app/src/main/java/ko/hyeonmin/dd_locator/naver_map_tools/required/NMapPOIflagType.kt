@@ -35,6 +35,19 @@ object NMapPOIflagType {
     val ASSET_JN_WN_GN_SY = SPOT + 16
     val ASSET_JN_WN_GN_SN = SPOT + 17
 
+    val FTR_V0_P0_T0 = SPOT + 18
+    val FTR_V0_P0_T1 = SPOT + 19
+    val FTR_V0_P0_T2 = SPOT + 20
+    val FTR_V0_P1_T0 = SPOT + 21
+    val FTR_V0_P1_T1 = SPOT + 22
+    val FTR_V0_P1_T2 = SPOT + 23
+    val FTR_V1_P0_T0 = SPOT + 24
+    val FTR_V1_P0_T1 = SPOT + 25
+    val FTR_V1_P0_T2 = SPOT + 26
+    val FTR_V1_P1_T0 = SPOT + 27
+    val FTR_V1_P1_T1 = SPOT + 28
+    val FTR_V1_P1_T2 = SPOT + 29
+
     val CLUSTER_START = SPOT + 100
     val CLUSTER_1 = CLUSTER_START + 1
     val CLUSTER_10 = CLUSTER_START + 2

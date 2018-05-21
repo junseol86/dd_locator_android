@@ -30,7 +30,7 @@ class MapAssetLoader(val ma: MapActivity) {
 
             if (ma.mapController!!.zoomLevel > 10) {
                 // 지도 줌이 11 이상일 때
-                val assetListUrl = Secrets.apiUrl + "assetListV4"
+                val assetListUrl = Secrets.apiUrl + "assetList_S2"
                 val assetRequest: StringRequest = object: StringRequest(Request.Method.GET, assetListUrl,
                         Response.Listener<String> {
                             ma.showingClusteredAssets = false
@@ -58,6 +58,11 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["fmlyMax"] = ma.mapFilter!!.fmlyMax.toString()
                         params["mainPurps"] = ma.mapFilter!!.mainPurps
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
+                        params["visited"] = ma.mapFilter!!.visited.toString()
+                        params["factory_count"] = ma.mapFilter!!.factory_count.toString()
+                        println("HOHOHO")
+                        println(params)
+                        println("HOHOHO")
                         return params
                     }
                 }
@@ -66,7 +71,7 @@ class MapAssetLoader(val ma: MapActivity) {
             } else {
                 // 지도 줌이 10 이하일 때
                 if (!ma.showBalloon) return
-                val dongListUrl = Secrets.apiUrl + "assetDongsV4"
+                val dongListUrl = Secrets.apiUrl + "assetDongs_S2"
                 val dongRequest: StringRequest = object: StringRequest(Request.Method.GET, dongListUrl,
                         Response.Listener<String> {
                             ma.mapClusterPoi?.showLoadedClusterNumbers(JSONObject(it)["dong_list"] as JSONArray, 0)
@@ -91,6 +96,8 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["fmlyMax"] = ma.mapFilter!!.fmlyMax.toString()
                         params["mainPurps"] = ma.mapFilter!!.mainPurps
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
+                        params["visited"] = ma.mapFilter!!.visited.toString()
+                        params["factory_count"] = ma.mapFilter!!.factory_count.toString()
                         return params
                     }
                 }

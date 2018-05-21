@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.View
 import android.widget.Toast
 import com.nhn.android.maps.maplib.NGeoPoint
 import com.nhn.android.maps.overlay.NMapPOIdata
@@ -53,13 +52,42 @@ class MapAssetPoi {
             var marker: Int
             var markerString = assetsJO["bld_name"].toString()
 
-            if (assetsJO["work_requested"].toString().trim() == "") {
-                marker = if (assetsJO["bld_name"].toString() == "(자동입력)") NMapPOIflagType.ASSET_JN_WN_GN_SN
-                else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_WN_GY_SN else NMapPOIflagType.ASSET_JN_WN_GY_SN
+            if (!(assetsJO["bld_type"].toString().contains("ftr") || mapActivity!!.mapFilter!!.bldType == "str")) {
+
+                if (assetsJO["work_requested"].toString().trim() == "") {
+                    marker = if (assetsJO["bld_name"].toString() == "(자동입력)") NMapPOIflagType.ASSET_JN_WN_GN_SN
+                    else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_WN_GY_SN else NMapPOIflagType.ASSET_JN_WN_GY_SN
+                } else {
+                    marker = if (assetsJO["bld_name"].toString() == "(자동입력)") NMapPOIflagType.ASSET_JN_WY_GN_SN
+                    else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_WY_GY_SN else NMapPOIflagType.ASSET_JN_WY_GY_SN
+                }
+
             } else {
-                marker = if (assetsJO["bld_name"].toString() == "(자동입력)") NMapPOIflagType.ASSET_JN_WY_GN_SN
-                else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_WY_GY_SN else NMapPOIflagType.ASSET_JN_WY_GY_SN
+                if (assetsJO["visited"] == 0) {
+                    marker = if ((assetsJO["bld_tel_owner"].toString() + assetsJO["bld_on_wall"].toString() + assetsJO["bld_on_parked"].toString()).trim() == "") {
+                        when {
+                            assetsJO["factory_count"] == -1 -> NMapPOIflagType.FTR_V0_P0_T0
+                            assetsJO["factory_count"] == 0 -> NMapPOIflagType.FTR_V0_P0_T1
+                            else -> NMapPOIflagType.FTR_V0_P0_T2
+                        }
+                    } else {
+                        NMapPOIflagType.FTR_V0_P1_T2
+                    }
+                } else {
+                    marker = if ((assetsJO["bld_tel_owner"].toString() + assetsJO["bld_on_wall"].toString() + assetsJO["bld_on_parked"].toString()).trim() == "") {
+                        when {
+                            assetsJO["factory_count"] == -1 -> NMapPOIflagType.FTR_V1_P0_T0
+                            assetsJO["factory_count"] == 0 -> NMapPOIflagType.FTR_V1_P0_T1
+                            else -> NMapPOIflagType.FTR_V1_P0_T2
+                        }
+                    } else {
+                        NMapPOIflagType.FTR_V1_P1_T2
+                    }
+
+                }
+
             }
+
             val ownerTel = if (assetsJO["bld_tel_owner"].toString().trim() == "") "없음" else assetsJO["bld_tel_owner"].toString()
             assetsPoiData?.addPOIitem(spot, markerString, marker, "${assetsJO["bld_idx"]}§$ownerTel§${assetsJO["bld_ipkey"]}§${assetsJO["bld_roomkey"]}")
         }
