@@ -1,10 +1,7 @@
 package ko.hyeonmin.dd_locator.naver_map_tools.extensions
 
 import android.util.Log
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
+import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import ko.hyeonmin.dd_locator.activities.MapActivity
 import ko.hyeonmin.dd_locator.naver_map_tools.MapSingleton
@@ -41,6 +38,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         },
                         Response.ErrorListener {
                             println("ERROR")
+                            println(it)
                         }
                 ) {
                     @Throws(AuthFailureError::class)
@@ -60,12 +58,11 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
-                        println("HOHOHO")
                         println(params)
-                        println("HOHOHO")
                         return params
                     }
                 }
+                assetRequest.retryPolicy = DefaultRetryPolicy(600000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
                 requestQ?.add(assetRequest)
                 ma.showLoader()
             } else {
@@ -79,6 +76,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         },
                         Response.ErrorListener {
                             println("ERROR")
+                            println(it)
                         }
                 ) {
                     @Throws(AuthFailureError::class)
@@ -98,6 +96,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
+                        println(params)
                         return params
                     }
                 }

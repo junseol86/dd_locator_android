@@ -167,15 +167,15 @@ class BilUpActivity: Activity() {
 
         ipkeyEditLl = findViewById(R.id.ipkey_num_ll)
         ipkeyEdit = findViewById(R.id.ipkey_num)
-        ipkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+        ipkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str" || MapSingleton.asset!!.bldType.contains("FACTORY"))
             View.GONE else View.VISIBLE
         roomkeyEditLl = findViewById(R.id.roomkey_num_ll)
         roomkeyEdit = findViewById(R.id.roomkey_num)
-        roomkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+        roomkeyEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str" || MapSingleton.asset!!.bldType.contains("FACTORY"))
             View.GONE else View.VISIBLE
         fmlyCntEditLl = findViewById(R.id.fmlyCntEdit_ll)
         fmlyCntEdit = findViewById(R.id.fmlyCntEdit)
-        fmlyCntEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+        fmlyCntEditLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str" || MapSingleton.asset!!.bldType.contains("FACTORY"))
             View.GONE else View.VISIBLE
 
         gwanEdit = findViewById(R.id.gwan_edit)
@@ -237,7 +237,7 @@ class BilUpActivity: Activity() {
 
         factoryCountLl = findViewById(R.id.factory_count_ll)
         factoryCount = findViewById(R.id.factory_count)
-        factoryCountLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str")
+        factoryCountLl?.visibility = if (MapSingleton.asset!!.bldType.contains("ftr") || MapSingleton.asset!!.bldType == "str" || MapSingleton.asset!!.bldType.contains("FACTORY"))
             View.VISIBLE else View.GONE
 
         workRequested = findViewById(R.id.workRequested)
@@ -348,12 +348,14 @@ class BilUpActivity: Activity() {
 
             onWallTv?.text =
                     if (MapSingleton.asset!!.bldType.contains("ftr")
-                            || MapSingleton.asset!!.bldType == "str")
+                            || MapSingleton.asset!!.bldType == "str"
+                            || MapSingleton.asset!!.bldType.contains("FACTORY"))
                     "현수막:" else "벽:"
             onWallEdit?.setText(MapSingleton.asset!!.bldOnWall)
             onParkedTv?.text =
                     if (MapSingleton.asset!!.bldType.contains("ftr")
-                            || MapSingleton.asset!!.bldType == "str")
+                            || MapSingleton.asset!!.bldType == "str"
+                            || MapSingleton.asset!!.bldType.contains("FACTORY"))
                         "세입자:" else "주차장:"
             onParkedEdit?.setText(MapSingleton.asset!!.bldOnParked)
             workRequested?.visibility = if (MapSingleton.asset!!.workRequested.trim() == "") View.GONE else View.VISIBLE

@@ -52,7 +52,7 @@ class MapAssetPoi {
             var marker: Int
             var markerString = assetsJO["bld_name"].toString()
 
-            if (!(assetsJO["bld_type"].toString().contains("ftr") || mapActivity!!.mapFilter!!.bldType == "str")) {
+            if (!(assetsJO["bld_type"].toString().contains("ftr") || mapActivity!!.mapFilter!!.bldType.contains("str") || mapActivity!!.mapFilter!!.bldType.contains("FACTORY"))) {
 
                 if (assetsJO["work_requested"].toString().trim() == "") {
                     marker = if (assetsJO["bld_name"].toString() == "(자동입력)") NMapPOIflagType.ASSET_JN_WN_GN_SN
