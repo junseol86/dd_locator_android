@@ -25,6 +25,11 @@ class MapAssetLoader(val ma: MapActivity) {
         if (ma.mapFilter != null && ma.mapController!!.zoomLevel > 7 && (forced || ma.mapLimit!!.limitLeft == 0 || ma.mapLimit!!.isOffLimit() || MapSingleton.assetsJA == null)) {
             ma.mapLimit!!.setLimits()
 
+            println("HOHOHOHOHOHO")
+            println(ma.mapFilter!!.bldCtgr)
+            println("HOHOHOHOHOHO")
+
+
             if (ma.mapController!!.zoomLevel > 11) {
                 // 지도 줌이 11 이상일 때
                 val assetListUrl = Secrets.apiUrl + "assetList_mobile_S2"
@@ -45,6 +50,7 @@ class MapAssetLoader(val ma: MapActivity) {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val params = HashMap<String, String>()
+
                         params["bldCtgr"] = ma.mapFilter!!.bldCtgr
                         params["bldType"] = ma.mapFilter!!.bldType
                         params["top"] = (ma.mapLimit!!.limitTop.toDouble() / 1000000).toString()
@@ -60,7 +66,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
-                        params["floor_min"] = ma.mapFilter!!.floorMinEt.text.toString()
+                        params["floor_min"] = if (ma.mapFilter!!.floorMinEt.text.toString().trim() == "") "0" else ma.mapFilter!!.floorMinEt.text.toString()
                         println(params)
                         return params
                     }
@@ -101,7 +107,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
-                        params["floor_min"] = ma.mapFilter!!.floorMinEt.text.toString()
+                        params["floor_min"] = if (ma.mapFilter!!.floorMinEt.text.toString().trim() == "") "0" else ma.mapFilter!!.floorMinEt.text.toString()
                         println(params)
                         return params
                     }

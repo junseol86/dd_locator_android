@@ -95,7 +95,7 @@ class MapFilter(val ma: MapActivity) {
         }
         bldCtgrCb4.setOnCheckedChangeListener { _, p1 ->
             val zeroOne = if (p1) "1" else "0"
-            bldCtgr = "" + bldCtgr[1] + bldCtgr[2] + bldCtgr[3] + zeroOne
+            bldCtgr = "" + bldCtgr[0] + bldCtgr[1] + bldCtgr[2] + zeroOne
         }
 
         bldTypeSpinner.adapter = bldTypeAdapter
@@ -171,7 +171,7 @@ class MapFilter(val ma: MapActivity) {
         mainPurpsEt.setText("")
         useaprDayEt.setText("")
 
-        floorMinEt.setText(0)
+        floorMinEt.setText("0")
 
         apply()
     }
