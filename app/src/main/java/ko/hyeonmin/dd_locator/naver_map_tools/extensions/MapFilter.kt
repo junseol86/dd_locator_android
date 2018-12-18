@@ -14,6 +14,7 @@ import ko.hyeonmin.dd_locator.utils.Consts
  * Created by junse on 2018-01-25.
  */
 class MapFilter(val ma: MapActivity) {
+    var bldCtgr = "0000"
     var bldType = ma.caches!!.bldType
     var hasName = 0
     var hasNumber = 0
@@ -24,6 +25,7 @@ class MapFilter(val ma: MapActivity) {
     var useaprDay = ""
     var visited = -1
     var factory_count = -1 // -1: 모름, 0: 없음, 1: 있음
+//    var floor_min = 0 // 0: 무관, 1~: #층 이상
 
     var hasNameOpt = arrayOf(
             Pair("이름무관", 0),
@@ -48,6 +50,11 @@ class MapFilter(val ma: MapActivity) {
     var hasNumberTemp = 0
     var hasGwanTemp = 0
 
+    val bldCtgrCb1: CheckBox = ma.findViewById(R.id.bldCtgrCb1)
+    val bldCtgrCb2: CheckBox = ma.findViewById(R.id.bldCtgrCb2)
+    val bldCtgrCb3: CheckBox = ma.findViewById(R.id.bldCtgrCb3)
+    val bldCtgrCb4: CheckBox = ma.findViewById(R.id.bldCtgrCb4)
+
     val bldTypeSpinner: Spinner = ma.findViewById(R.id.bldType)
     val bldTypeAdapter = ArrayAdapter(ma, android.R.layout.simple_spinner_dropdown_item, Consts.bldTypeOptForFilter.map {it.first})
 
@@ -65,6 +72,8 @@ class MapFilter(val ma: MapActivity) {
     val mainPurpsEt: EditText = ma.findViewById(R.id.mainPurpsEt)
     val useaprDayEt: EditText = ma.findViewById(R.id.useaprDayEt)
 
+    val floorMinEt: EditText = ma.findViewById(R.id.flrMinEt)
+
     val filterApplyBtn: Button = ma.findViewById(R.id.filterApplyBtn)
     val filterClearBtn: Button = ma.findViewById(R.id.filterClearBtn)
 
@@ -72,8 +81,25 @@ class MapFilter(val ma: MapActivity) {
     val imm: InputMethodManager = ma.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
     init {
+        bldCtgrCb1.setOnCheckedChangeListener { _, p1 ->
+            val zeroOne = if (p1) "1" else "0"
+            bldCtgr = "" + zeroOne + bldCtgr[1] + bldCtgr[2] + bldCtgr[3]
+        }
+        bldCtgrCb2.setOnCheckedChangeListener { _, p1 ->
+            val zeroOne = if (p1) "1" else "0"
+            bldCtgr = "" + bldCtgr[0] + zeroOne +  bldCtgr[2] + bldCtgr[3]
+        }
+        bldCtgrCb3.setOnCheckedChangeListener { _, p1 ->
+            val zeroOne = if (p1) "1" else "0"
+            bldCtgr = "" + bldCtgr[0] + bldCtgr[1] + zeroOne + bldCtgr[3]
+        }
+        bldCtgrCb4.setOnCheckedChangeListener { _, p1 ->
+            val zeroOne = if (p1) "1" else "0"
+            bldCtgr = "" + bldCtgr[1] + bldCtgr[2] + bldCtgr[3] + zeroOne
+        }
+
         bldTypeSpinner.adapter = bldTypeAdapter
-        bldTypeSpinner.setSelection(5)
+        bldTypeSpinner.setSelection(0)
         bldTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -124,6 +150,12 @@ class MapFilter(val ma: MapActivity) {
 
 
     fun clear() {
+        bldCtgrCb1.isChecked = false
+        bldCtgrCb2.isChecked = false
+        bldCtgrCb3.isChecked = false
+        bldCtgrCb4.isChecked = false
+        bldCtgr = "0000"
+
         bldTypeSpinner.setSelection(5)
         hasNameSpinner.setSelection(0)
         hasNumberSpinner.setSelection(0)
@@ -138,6 +170,8 @@ class MapFilter(val ma: MapActivity) {
         fmlyMaxEt.setText("")
         mainPurpsEt.setText("")
         useaprDayEt.setText("")
+
+        floorMinEt.setText(0)
 
         apply()
     }

@@ -4,6 +4,7 @@ import com.nhn.android.maps.NMapView
 import com.nhn.android.maps.maplib.NGeoPoint
 import com.nhn.android.maps.nmapmodel.NMapError
 import ko.hyeonmin.dd_locator.activities.MapActivity
+import ko.hyeonmin.dd_locator.utils.Consts
 
 /**
  * Created by Hyeonmin on 2017-06-27.
@@ -25,7 +26,7 @@ object MyOnMapStateChangeListener : NMapView.OnMapStateChangeListener {
         (mapView.context as MapActivity).mapAssetLoader?.loadIfNeeded(false)
     }
     override fun onZoomLevelChange(mapView: NMapView, level: Int) {
-        (mapView.context as MapActivity).mapAssetLoader?.loadIfNeeded(((mapView.context as MapActivity).zoomLevel > 10 && level <= 10) || (mapView.context as MapActivity).zoomLevel <= 10 && level > 10 || (mapView.context as MapActivity).showingClusteredAssets)
+        (mapView.context as MapActivity).mapAssetLoader?.loadIfNeeded(((mapView.context as MapActivity).zoomLevel > Consts.zoomStd && level <= Consts.zoomStd) || (mapView.context as MapActivity).zoomLevel <= Consts.zoomStd && level > Consts.zoomStd || (mapView.context as MapActivity).showingClusteredAssets)
         (mapView.context as MapActivity).zoomLevel = level
     }
     override fun onMapCenterChangeFine(mapView: NMapView) {

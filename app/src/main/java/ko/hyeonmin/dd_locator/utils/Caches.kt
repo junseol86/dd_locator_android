@@ -44,7 +44,7 @@ class Caches (activity : Activity) {
         }
 
     var bldType: String
-        get() = sharedPrefs.getString("bldType", "one")
+        get() = sharedPrefs.getString("bldType", "all")
         set(value) {
             sharedPrefs.edit().putString("bldType", value).commit()
         }

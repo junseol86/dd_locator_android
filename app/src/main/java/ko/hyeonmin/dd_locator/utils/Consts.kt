@@ -2,6 +2,8 @@ package ko.hyeonmin.dd_locator.utils
 
 object Consts {
 
+    var zoomStd = 11 // 건물별/동별 뷰를 가름하는 줌 기준
+
     var bldTypeOpt = arrayOf(
             Pair("전체", "all"),
             Pair("아파트", "apt"),

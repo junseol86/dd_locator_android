@@ -32,6 +32,7 @@ import ko.hyeonmin.dd_locator.naver_map_tools.required.MyMapResourceProvider
 import ko.hyeonmin.dd_locator.naver_map_tools.required.MyOnMapStateChangeListener
 import ko.hyeonmin.dd_locator.naver_map_tools.required.MyOnMapViewTouchListener
 import ko.hyeonmin.dd_locator.utils.Caches
+import ko.hyeonmin.dd_locator.utils.Consts
 import ko.hyeonmin.dd_locator.utils.Secrets
 import org.json.JSONObject
 import java.lang.System.exit
@@ -327,7 +328,7 @@ class MapActivity : NMapActivity() {
         toggleRotation(false)
         mapInputInterface?.toggleSpotButtonsVisibility(View.GONE)
 
-        if (mapController!!.zoomLevel <= 10) {
+        if (mapController!!.zoomLevel <= Consts.zoomStd) {
             mapController!!.mapCenter = mapView?.mapProjection?.fromPixels(event!!.x.toInt(), event.y.toInt())
             mapController!!.zoomLevel = 12
             return

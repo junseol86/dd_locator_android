@@ -22,10 +22,10 @@ class MapAssetLoader(val ma: MapActivity) {
     }
 
     fun loadIfNeeded(forced: Boolean) {
-        if (forced || ma.mapLimit!!.limitLeft == 0 || ma.mapLimit!!.isOffLimit() || MapSingleton.assetsJA == null) {
+        if (ma.mapFilter != null && ma.mapController!!.zoomLevel > 7 && (forced || ma.mapLimit!!.limitLeft == 0 || ma.mapLimit!!.isOffLimit() || MapSingleton.assetsJA == null)) {
             ma.mapLimit!!.setLimits()
 
-            if (ma.mapController!!.zoomLevel > 10) {
+            if (ma.mapController!!.zoomLevel > 11) {
                 // 지도 줌이 11 이상일 때
                 val assetListUrl = Secrets.apiUrl + "assetList_mobile_S2"
                 val assetRequest: StringRequest = object: StringRequest(Request.Method.GET, assetListUrl,
@@ -45,7 +45,7 @@ class MapAssetLoader(val ma: MapActivity) {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val params = HashMap<String, String>()
-                        params["bldCtgr"] = "0000"
+                        params["bldCtgr"] = ma.mapFilter!!.bldCtgr
                         params["bldType"] = ma.mapFilter!!.bldType
                         params["top"] = (ma.mapLimit!!.limitTop.toDouble() / 1000000).toString()
                         params["bottom"] = (ma.mapLimit!!.limitBottom.toDouble() / 1000000).toString()
@@ -60,6 +60,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
+                        params["floor_min"] = ma.mapFilter!!.floorMinEt.text.toString()
                         println(params)
                         return params
                     }
@@ -85,7 +86,7 @@ class MapAssetLoader(val ma: MapActivity) {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val params = HashMap<String, String>()
-                        params["bldCtgr"] = "0000"
+                        params["bldCtgr"] = ma.mapFilter!!.bldCtgr
                         params["bldType"] = ma.mapFilter!!.bldType
                         params["top"] = (ma.mapLimit!!.limitTop.toDouble() / 1000000).toString()
                         params["bottom"] = (ma.mapLimit!!.limitBottom.toDouble() / 1000000).toString()
@@ -100,6 +101,7 @@ class MapAssetLoader(val ma: MapActivity) {
                         params["useaprDay"] = ma.mapFilter!!.useaprDay
                         params["visited"] = ma.mapFilter!!.visited.toString()
                         params["factory_count"] = ma.mapFilter!!.factory_count.toString()
+                        params["floor_min"] = ma.mapFilter!!.floorMinEt.text.toString()
                         println(params)
                         return params
                     }
