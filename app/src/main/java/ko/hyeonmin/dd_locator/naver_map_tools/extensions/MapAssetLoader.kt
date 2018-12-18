@@ -27,11 +27,12 @@ class MapAssetLoader(val ma: MapActivity) {
 
             if (ma.mapController!!.zoomLevel > 10) {
                 // 지도 줌이 11 이상일 때
-                val assetListUrl = Secrets.apiUrl + "assetList_S2"
+                val assetListUrl = Secrets.apiUrl + "assetList_mobile_S2"
                 val assetRequest: StringRequest = object: StringRequest(Request.Method.GET, assetListUrl,
                         Response.Listener<String> {
                             ma.showingClusteredAssets = false
-                            ma.mapAssetPoi?.showLoadedAssets(JSONObject(it)["asset_list"] as JSONArray)
+                            println(it)
+                            ma.mapAssetPoi?.showLoadedAssets(JSONArray(it))
                             if (ma.showingClusteredAssets)
                                 ma.mapClusterPoi?.showLoadedClusterNumbers(JSONArray(it), 1)
                             ma.hideLoader()
@@ -44,6 +45,7 @@ class MapAssetLoader(val ma: MapActivity) {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val params = HashMap<String, String>()
+                        params["bldCtgr"] = "0000"
                         params["bldType"] = ma.mapFilter!!.bldType
                         params["top"] = (ma.mapLimit!!.limitTop.toDouble() / 1000000).toString()
                         params["bottom"] = (ma.mapLimit!!.limitBottom.toDouble() / 1000000).toString()
@@ -68,10 +70,11 @@ class MapAssetLoader(val ma: MapActivity) {
             } else {
                 // 지도 줌이 10 이하일 때
                 if (!ma.showBalloon) return
-                val dongListUrl = Secrets.apiUrl + "assetDongs_S2"
+                val dongListUrl = Secrets.apiUrl + "assetDongs_mobile_S2"
                 val dongRequest: StringRequest = object: StringRequest(Request.Method.GET, dongListUrl,
                         Response.Listener<String> {
-                            ma.mapClusterPoi?.showLoadedClusterNumbers(JSONObject(it)["dong_list"] as JSONArray, 0)
+                            println(it)
+                            ma.mapClusterPoi?.showLoadedClusterNumbers(JSONArray(it), 0)
                             ma.hideLoader()
                         },
                         Response.ErrorListener {
@@ -82,6 +85,7 @@ class MapAssetLoader(val ma: MapActivity) {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val params = HashMap<String, String>()
+                        params["bldCtgr"] = "0000"
                         params["bldType"] = ma.mapFilter!!.bldType
                         params["top"] = (ma.mapLimit!!.limitTop.toDouble() / 1000000).toString()
                         params["bottom"] = (ma.mapLimit!!.limitBottom.toDouble() / 1000000).toString()
