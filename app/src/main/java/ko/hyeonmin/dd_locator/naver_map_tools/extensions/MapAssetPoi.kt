@@ -51,26 +51,31 @@ class MapAssetPoi {
             val spot = NGeoPoint(assetsJO["bld_map_x"].toString().toDouble(), assetsJO["bld_map_y"].toString().toDouble())
             var marker: Int
             var markerString = assetsJO["bld_name"].toString()
+            markerString = if (markerString.trim() == "") "(없음)" else markerString
 
             if (!(assetsJO["bld_type"].toString().contains("ftr") || mapActivity!!.mapFilter!!.bldType.contains("str") || mapActivity!!.mapFilter!!.bldType.contains("FACTORY"))) {
 
                 println(assetsJO["work_request"].toString().trim())
 
                 if (assetsJO["work_requested"].toString().trim() == "") {
-                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "") NMapPOIflagType.ASSET_JN_W0_GN_SN
-                    else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GY_SN else NMapPOIflagType.ASSET_JN_W0_GY_SN
+                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "")
+                        (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GN_SN else NMapPOIflagType.ASSET_JN_W0_GN_SN)
+                    else (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GY_SN else NMapPOIflagType.ASSET_JN_W0_GY_SN)
 
                 } else if (assetsJO["work_request"].toString().trim() == "1") {
-                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "") NMapPOIflagType.ASSET_JN_W1_GN_SN
+                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "")
+                        (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W1_GN_SN else NMapPOIflagType.ASSET_JN_W1_GN_SN)
                     else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W1_GY_SN else NMapPOIflagType.ASSET_JN_W1_GY_SN
 
                 } else if (assetsJO["work_request"].toString().trim() == "2") {
-                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "") NMapPOIflagType.ASSET_JN_W2_GN_SN
-                    else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W2_GY_SN else NMapPOIflagType.ASSET_JN_W2_GY_SN
+                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "")
+                        (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W2_GN_SN else NMapPOIflagType.ASSET_JN_W2_GN_SN)
+                    else (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W2_GY_SN else NMapPOIflagType.ASSET_JN_W2_GY_SN)
 
                 } else {
-                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "") NMapPOIflagType.ASSET_JN_W0_GN_SN
-                    else if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GY_SN else NMapPOIflagType.ASSET_JN_W0_GY_SN
+                    marker = if (assetsJO["bld_name"].toString().replace("(자동입력)", "").trim() == "")
+                        (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GN_SN else NMapPOIflagType.ASSET_JN_W0_GN_SN)
+                    else (if (assetsJO["bld_tel_owner"].toString().trim() != "") NMapPOIflagType.ASSET_JY_W0_GY_SN else NMapPOIflagType.ASSET_JN_W0_GY_SN)
                 }
 
             } else {
